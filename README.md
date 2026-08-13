@@ -1,6 +1,6 @@
 # Anniversary Love Archive™
 
-A deliberately obnoxious little anniversary website.
+https://lukeandrobin.github.io/Anniversary2026/
 
 ## Quick setup
 
