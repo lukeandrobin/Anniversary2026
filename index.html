@@ -1,54 +1,39 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>😘</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our First Year ❤️</title><link rel="stylesheet" href="styles.css"></head>
 <body>
-  <div id="cursor-emoji">💖</div>
-  <div id="trail"></div>
-  <div id="confetti"></div>
+<div id="cursor">💖</div><div id="particle-layer"></div>
+<header class="hero">
+<div class="marquee">💖 ✨ 💕  💕 ✨ 💖</div>
+<h1>OUR FIRST<br><span>YEAR</span></h1>
+</header>
+<aside class="month-nav" id="monthNav"></aside>
+<main id="timeline"></main>
+<h2>365 DAYS LATER...</h2><p class="big">Still my favorite person. ❤️</p>
+<p>Happy first anniversary, Robin!!!!</p><button id="again">🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉</button></section>
+<footer>😘</footer>
 
-  <header class="hero">
-    <div class="marquee">💖 💕 💘 ✨ Luke and Robin 2026 ✨ 💘 💕 💖</div>
-    <div class="sparkle">✦</div>
-    <h1>THE OFFICIAL<br><span>LOVE ARCHIVE™</span></h1>
-    <p class="subtitle">One year. One wife. An unreasonable amount of evidence.</p>
-    <button id="loveButton" class="giant-button">💗 CLICK FOR LOVE 💗</button>
-    <p class="tiny">Best viewed with an excessive amount of affection.</p>
-  </header>
-
-  <main>
-
-    <section>
-      <h2>📸 THE EVIDENCE</h2>
-      <p class="section-intro">Click the pictures. Seriously. They're emotionally unstable.</p>
-      <div id="gallery" class="gallery"></div>
-    </section>
-
-    <section class="chaos card">
-      <h2>⚠️ OFFICIAL MARRIAGE DIAGNOSTIC</h2>
-      <p>Relationship status:</p>
-      <div class="meter"><div></div></div>
-      <h3>RIDICULOUSLY IN LOVE</h3>
-      <button id="diagnostic" class="button">RUN DIAGNOSTIC</button>
-      <p id="diagnosticResult" class="result"></p>
-    </section>
-
-    <section class="final">
-      <div class="warning">⚠️ EXTREME WIFE DETECTED ⚠️</div>
-      <h2>❤️ FINAL BOSS ❤️</h2>
-      <p class="love-note">Happy first anniversary, my love.</p>
-      <p>Thank you for making ordinary days my favorite days. I would choose you again, every single time.</p>
-      <button id="wifeButton" class="giant-button">💍 CONTINUE MARRIAGE</button>
-      <p id="finalMessage"></p>
-    </section>
-  </main>
-
-  <footer>© 2026 The [YOUR LAST NAME] Love Archive™ — Unauthorized happiness prohibited.</footer>
-
-  <script src="script.js"></script>
+<button id="soundButton">😽</button>
+<script src="script.js"></script>
 </body>
 </html>
+
+<style>
+  #soundButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const sound = new Audio("meow.mp3");
+  sound.volume = .6;
+
+  document.getElementById("soundButton").onclick = () => {
+    sound.currentTime = 0;
+    sound.play();
+  };
+</script>
