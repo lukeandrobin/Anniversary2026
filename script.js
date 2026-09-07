@@ -70,48 +70,104 @@ function placeholder(ctx, w, h) {
 }
 
 function jelly(canvas, img, cx, cy) {
-	const ctx = canvas.getContext("2d"),
-		w = canvas.width,
-		h = canvas.height,
-		base = document.createElement("canvas");
-	base.width = w;
-	base.height = h;
-	const b = base.getContext("2d");
-	drawCover(b, img, w, h);
-	const src = b.getImageData(0, 0, w, h),
-		out = ctx.createImageData(w, h),
-		start = performance.now(),
-		duration = 1100,
-		maxR = Math.sqrt(w * w + h * h) * .72;
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width;
+    const h = canvas.height;
 
-	function frame(now) {
-		const t = Math.min(1, (now - start) / duration),
-			radius = t * maxR,
-			d = out.data,
-			s = src.data;
-		for (let y = 0; y < h; y++)
-			for (let x = 0; x < w; x++) {
-				let dx = x - cx,
-					dy = y - cy,
-					dist = Math.hypot(dx, dy),
-					env = Math.exp(-((dist - radius) ** 2) / (2 * 70 * 70)),
-					strength = (1 - t) * 30 * env,
-					ang = Math.atan2(dy, dx),
-					sx = Math.max(0, Math.min(w - 1, Math.round(x - Math.cos(ang) * strength))),
-					sy = Math.max(0, Math.min(h - 1, Math.round(y - Math.sin(ang) * strength))),
-					si = (sy * w + sx) * 4,
-					oi = (y * w + x) * 4;
-				d[oi] = s[si];
-				d[oi + 1] = s[si + 1];
-				d[oi + 2] = s[si + 2];
-				d[oi + 3] = s[si + 3]
-			}
-		ctx.putImageData(out, 0, 0);
-		if (t < 1) requestAnimationFrame(frame);
-		else drawCover(ctx, img, w, h)
-	}
-	requestAnimationFrame(frame);
-	burst(canvas, cx, cy)
+    const base = document.createElement("canvas");
+    base.width = w;
+    base.height = h;
+
+    const b = base.getContext("2d");
+    drawCover(b, img, w, h);
+
+    const src = b.getImageData(0, 0, w, h);
+    const out = ctx.createImageData(w, h);
+
+    const s = src.data;
+    const d = out.data;
+
+    const start = performance.now();
+    const duration = 1100;
+    const maxR = Math.sqrt(w * w + h * h) * 0.72;
+
+    // Precalculate distance + angle information
+    const dx = new Float32Array(w * h);
+    const dy = new Float32Array(w * h);
+    const dist = new Float32Array(w * h);
+
+    for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+            const i = y * w + x;
+
+            const xDist = x - cx;
+            const yDist = y - cy;
+
+            dx[i] = xDist;
+            dy[i] = yDist;
+            dist[i] = Math.sqrt(xDist * xDist + yDist * yDist);
+        }
+    }
+
+    function frame(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const radius = t * maxR;
+
+        // Less work than calculating these for every pixel
+        const waveWidth = 70;
+        const waveWidth2 = 2 * waveWidth * waveWidth;
+
+        for (let i = 0; i < w * h; i++) {
+            const distance = dist[i];
+
+            const diff = distance - radius;
+
+            // Avoid Math.hypot / atan2 / cos / sin
+            const env = Math.exp(-(diff * diff) / waveWidth2);
+            const strength = (1 - t) * 30 * env;
+
+            let sx;
+            let sy;
+
+            if (distance > 0.001) {
+                sx = Math.round(
+                    (dx[i] / distance) * -strength
+                );
+
+                sy = Math.round(
+                    (dy[i] / distance) * -strength
+                );
+            } else {
+                sx = 0;
+                sy = 0;
+            }
+
+            const x = (i % w) + sx;
+            const y = Math.floor(i / w) + sy;
+
+            const clampedX = Math.max(0, Math.min(w - 1, x));
+            const clampedY = Math.max(0, Math.min(h - 1, y));
+
+            const si = (clampedY * w + clampedX) * 4;
+            const oi = i * 4;
+
+            d[oi]     = s[si];
+            d[oi + 1] = s[si + 1];
+            d[oi + 2] = s[si + 2];
+            d[oi + 3] = s[si + 3];
+        }
+
+        ctx.putImageData(out, 0, 0);
+
+        if (t < 1) {
+            requestAnimationFrame(frame);
+        } else {
+            drawCover(ctx, img, w, h);
+        }
+    }
+
+    requestAnimationFrame(frame);
+    burst(canvas, cx, cy);
 }
 
 function burst(c, x, y) {
