@@ -19,7 +19,7 @@ months.forEach((m, i) => {
 	const s = document.createElement("section");
 	s.className = "month";
 	s.id = `month-${i+1}`;
-	s.innerHTML = `<div class="month-marker">${String(i+1).padStart(2,"0")}</div><div class="month-title"><h2>${m[0]}</h2> <h2>${m[1]}</h2><p>${m[2]}</p></div><div class="photos"></div><p class="hint">👆</p>`;
+	s.innerHTML = `<div class="month-marker">${String(i+1).padStart(2,"0")}</div><div class="month-title"><h2>${m[0]}</h2> <h2>${m[1]}</h2><p>${m[2]}</p></div><div class="photos"></div>`;
 	const grid = s.querySelector(".photos");
 	for (let j = 1; j <= 3; j++) {
 		const card = document.createElement("article");
@@ -229,5 +229,6 @@ function celebrate() {
 		setTimeout(() => p.remove(), 2200)
 	}
 }
-document.querySelector("#start").onclick = () => document.querySelector("#month-1").scrollIntoView();
+
 document.querySelector("#again").onclick = celebrate;
+document.querySelector("#start").onclick = () => document.querySelector("#month-1").scrollIntoView();

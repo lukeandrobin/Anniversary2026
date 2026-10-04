@@ -71,13 +71,6 @@ button {
   box-shadow: 8px 8px #32162b;
   transition: 0.12s;
 }
-soundButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-  }
 button:hover {
   transform: translate(5px, 5px);
   box-shadow: 3px 3px #32162b;
