@@ -231,4 +231,4 @@ function celebrate() {
 }
 
 document.querySelector("#again").onclick = celebrate;
-document.querySelector("#start").onclick = () => document.querySelector("#month-1").scrollIntoView();
+document.querySelector("#start").onclick = document.querySelector("#month-1").scrollIntoView();
